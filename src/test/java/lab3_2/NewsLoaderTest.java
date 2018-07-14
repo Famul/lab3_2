@@ -1,6 +1,8 @@
 package lab3_2;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -63,5 +65,11 @@ public class NewsLoaderTest {
         test.addPublicInfo("publiczna");
         test.addForSubscription("dla subskrybentow", SubsciptionType.A);
         Assert.assertThat(newsLoader.loadNews().equals(test), Matchers.equalTo(true));
+    }
+
+    @Test
+    public void publishingNewsShouldLoadConfigurationOnlyOnce() {
+        newsLoader.loadNews();
+        verify(configurationLoader, times(1)).loadConfiguration();
     }
 }
